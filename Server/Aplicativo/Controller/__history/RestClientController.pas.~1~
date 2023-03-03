@@ -1,0 +1,16 @@
+unit RestClientController;
+
+interface
+
+type
+  TRestClient = class
+    private
+    FRestClient: TRESTClient;
+
+    public
+      property RestClient : TRESTClient read FRestClient write FRestClient;
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,135 @@
+unit Classe.Conexao;
+
+interface
+
+uses FireDAC.Stan.Intf, System.SysUtils, IniFiles,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB;
+
+type
+ TConecta = class
+   private
+     FUserName   :String;
+     FPassword   :String;
+     FDatabase   :String;
+     FDriverID   :String;
+     FVendorLib  :String;
+     FConectar   :TFDConnection;
+   public
+     property UserName  : String read FUserName   write FUserName;
+     property Password  : String read FPassword   write FPassword;
+     property Database  : String read FDatabase   write FDatabase;
+     property DriverID  : String read FDriverID   write FDriverID;
+     property VendorLib : String read FVendorLib  write FVendorLib;
+
+     property Conectar  :TFDConnection read FConectar write FConectar;
+     procedure GerarArquivoConexao(Banco, Localizacao, Comando: String);
+     function LerArqConfig(Banco, Localizacao, Comando: String):String;
+     function ContarRegistros(SetTabela: String):Integer;
+     constructor Create; overload;
+ end;
+
+implementation
+
+uses
+  Vcl.Dialogs;
+
+{ TConecta }
+
+function TConecta.ContarRegistros(SetTabela: String): Integer;
+var conn : TConecta;
+    Qry  : TFDQuery;
+begin
+  conn := TConecta.Create;
+  Qry  := TFDQuery.Create(nil);
+  try
+    with Qry do
+    begin
+      Connection := conn.Conectar;
+      SQL.Clear;
+      SQL.Add('select * from '+SetTabela);
+      Open;
+      Result     := RecordCount;
+    end;
+  finally
+    conn.Free;
+    Qry.Free;
+  end;
+end;
+
+constructor TConecta.Create;
+var
+ fb       : TFDPhysFBDriverLink;
+begin
+  conectar := TFDConnection.Create(nil);
+  fb       := TFDPhysFBDriverLink.Create(nil);
+  with conectar.Params do
+  begin
+    Add('User_Name='    + LerArqConfig('BANCO','USUARIO','SYSDBA'));
+    Add('Password='     + LerArqConfig('BANCO','SENHA','masterkey'));
+    Add('Database='     + LerArqConfig('BANCO','DATABASE','BASE.FDB'));
+    Add('DriverID='     + LerArqConfig('BANCO','DRIVERID','FB'));
+    Add('Port='         + LerArqConfig('BANCO','PORTA','3050'));
+    Add('Server='       + LerArqConfig('BANCO','HOST','127.0.0.1'));
+    Add('CharacterSet=' + LerArqConfig('BANCO','CHARSET','utf8'));
+    Add('protocol='     + LerArqConfig('BANCO','PROTOCOL','local'));
+    fb.VendorLib := LerArqConfig('BANCO','DLL','C:\Program Files (x86)\Firebird\Firebird_2_5\bin\fbclient.dll');
+  end;
+
+  try
+    conectar.Connected := True;
+  except on e: Exception do
+    begin
+        ShowMessage('Falha ao conectar na base de dados!' + #13 + e.Message, 'ERRO NA CONEXÃO');
+        conectar.Free;
+        fb.Free;
+        exit
+    end;
+  end;
+end;
+
+procedure TConecta.GerarArquivoConexao(Banco, Localizacao, Comando: String);
+var 
+	Arq : Tinifile; caminho: string;
+begin
+  caminho := ParamStr(0);
+  caminho := ExtractFilePath(caminho);
+  Arq     := TIniFile.Create(caminho+'Config\Conexao.dat');
+  
+  try
+    if not Arq.ValueExists(Banco,Localizacao) then
+     Arq.WriteString(Banco, Localizacao, Comando);
+  finally
+    Arq.Free;
+  end;
+end;
+
+function TConecta.LerArqConfig(Banco, Localizacao, Comando: String): String;
+var 
+	Arq : Tinifile; caminho: string;
+begin
+  caminho := ParamStr(0);
+  caminho := ExtractFilePath(caminho);
+
+  Arq := TIniFile.Create(caminho + 'Config\Conexao.dat');
+  try
+    if Arq.ValueExists(Banco,Localizacao) then
+     Result := Arq.ReadString(Banco, Localizacao, Comando)
+    else
+    begin
+      if not FileExists(caminho + 'Config/Conexao.dat') then
+      begin
+        if not DirectoryExists(caminho + 'Config/')then
+        begin
+          ForceDirectories(caminho + 'Config/');
+        end;
+      end;
+      GerarArquivoConexao(Banco, Localizacao, Comando);
+    end;
+  finally
+    Arq.Free;
+  end;
+end;
+
+end.

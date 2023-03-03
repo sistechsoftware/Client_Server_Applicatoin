@@ -1,0 +1,12 @@
+unit ClienteModel;
+
+interface
+
+type
+  TPessoa = class
+    private
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+	<Transactions>
+    <Transaction>2023/02/26 13:40:42.000.167,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Model\ClienteModel.pas</Transaction>
+    <Transaction>2023/02/26 13:40:42.000.182,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Model\EnderecoIntegracaoModel.pas</Transaction>
+    <Transaction>2023/02/26 13:40:42.000.214,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Model\EnderecoModel.pas</Transaction>
+    <Transaction>2023/02/26 16:17:25.000.458,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Dpr\Unit1.pas</Transaction>
+    <Transaction>2023/02/26 16:18:29.000.668,Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Dpr\Unit1.pas=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Controller\RestClientController.pas</Transaction>
+    <Transaction>2023/02/26 16:22:45.000.982,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Controller\RestServerController.pas</Transaction>
+    <Transaction>2023/02/26 23:03:18.444,=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNOLOGIA\PROJETOS\WK\Server\Aplicativo\Controller\EnderecoController.pas</Transaction>
+  </Transactions>
+</BorlandProject>

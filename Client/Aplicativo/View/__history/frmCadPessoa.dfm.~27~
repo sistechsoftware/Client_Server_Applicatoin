@@ -1,0 +1,175 @@
+object fCadPessoa: TfCadPessoa
+  Left = 0
+  Top = 0
+  Caption = 'Cadastro de Pessoas'
+  ClientHeight = 299
+  ClientWidth = 596
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 40
+    Top = 45
+    Width = 27
+    Height = 13
+    Caption = 'Nome'
+  end
+  object Label2: TLabel
+    Left = 328
+    Top = 45
+    Width = 54
+    Height = 13
+    Caption = 'Sobrenome'
+  end
+  object Label3: TLabel
+    Left = 184
+    Top = 45
+    Width = 54
+    Height = 13
+    Caption = 'Documento'
+  end
+  object Label4: TLabel
+    Left = 328
+    Top = 134
+    Width = 85
+    Height = 13
+    Caption = 'Data de Cadastro'
+  end
+  object Label5: TLabel
+    Left = 40
+    Top = 88
+    Width = 19
+    Height = 13
+    Caption = 'CEP'
+  end
+  object Label6: TLabel
+    Left = 184
+    Top = 88
+    Width = 19
+    Height = 13
+    Caption = 'Rua'
+  end
+  object Label7: TLabel
+    Left = 328
+    Top = 88
+    Width = 28
+    Height = 13
+    Caption = 'Bairro'
+  end
+  object Label8: TLabel
+    Left = 40
+    Top = 134
+    Width = 13
+    Height = 13
+    Caption = 'UF'
+  end
+  object Label9: TLabel
+    Left = 184
+    Top = 134
+    Width = 33
+    Height = 13
+    Caption = 'Cidade'
+  end
+  object edtNome: TEdit
+    Left = 40
+    Top = 61
+    Width = 121
+    Height = 21
+    TabOrder = 0
+    Text = 'edtNome'
+  end
+  object cbPJ: TCheckBox
+    Left = 472
+    Top = 63
+    Width = 97
+    Height = 17
+    Caption = 'Pessoa Jur'#237'dica'
+    TabOrder = 1
+  end
+  object edtSobrenome: TEdit
+    Left = 328
+    Top = 61
+    Width = 121
+    Height = 21
+    TabOrder = 2
+    Text = 'Edit1'
+  end
+  object edtDocumento: TEdit
+    Left = 184
+    Top = 61
+    Width = 121
+    Height = 21
+    TabOrder = 3
+    Text = 'Edit1'
+  end
+  object edtDtCadastro: TDateTimePicker
+    Left = 328
+    Top = 150
+    Width = 97
+    Height = 21
+    Date = 44983.000000000000000000
+    Time = 0.475649120373418600
+    TabOrder = 4
+  end
+  object btnSalvar: TButton
+    Left = 32
+    Top = 264
+    Width = 75
+    Height = 25
+    Caption = 'Salvar'
+    TabOrder = 5
+    OnClick = btnSalvarClick
+  end
+  object edtCep: TEdit
+    Left = 40
+    Top = 104
+    Width = 121
+    Height = 21
+    TabOrder = 6
+    Text = 'edtNome'
+    OnExit = edtCepExit
+  end
+  object edtRua: TEdit
+    Left = 184
+    Top = 104
+    Width = 121
+    Height = 21
+    TabOrder = 7
+    Text = 'edtNome'
+    OnExit = edtCepExit
+  end
+  object edtBairro: TEdit
+    Left = 328
+    Top = 104
+    Width = 121
+    Height = 21
+    TabOrder = 8
+    Text = 'edtNome'
+    OnExit = edtCepExit
+  end
+  object edtUF: TEdit
+    Left = 40
+    Top = 150
+    Width = 121
+    Height = 21
+    TabOrder = 9
+    Text = 'edtNome'
+    OnExit = edtCepExit
+  end
+  object edtCidade: TEdit
+    Left = 184
+    Top = 150
+    Width = 121
+    Height = 21
+    TabOrder = 10
+    Text = 'edtNome'
+    OnExit = edtCepExit
+  end
+end

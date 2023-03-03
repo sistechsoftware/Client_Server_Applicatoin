@@ -1,0 +1,20 @@
+unit EnderecoIntegracaoModel;
+
+interface
+
+type
+  TEnderecoIntegracao = class
+    private
+
+    public
+      property IdEndereco    : Integer read FIdEndereco    write setIdEndereco;
+      property DsUf          : String  read FDsUf          write setDsUf;
+      property NmCidade      : String  read FNmCidade      write setNmCidade;
+      property NmBairro      : String  read FNmBairro      write setIdEndereco;
+      property NmLogradouro  : String  read FNmLogradouro  write setNmLogradouro;
+      property DsComplemento : String  read FDsComplemento write setDsComplemento;
+  end;
+
+implementation
+
+end.

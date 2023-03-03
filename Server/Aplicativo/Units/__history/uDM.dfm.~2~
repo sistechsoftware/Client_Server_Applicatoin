@@ -1,0 +1,123 @@
+object DM: TDM
+  OldCreateOrder = False
+  OnCreate = ServerMethodDataModuleCreate
+  Encoding = esUtf8
+  QueuedRequest = False
+  Height = 547
+  Width = 327
+  object Conexao: TFDConnection
+    Params.Strings = (
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      
+        'Database=Z:\DESENVOLVIMENTO DE SOFTWARE\SISTECH SOFTWARE E TECNO' +
+        'LOGIA\PROJETOS\EmpacserVendasAPI.git\trunk\DB\SAC_NFCE.FDB'
+      'DriverID=fB')
+    LoginPrompt = False
+    Left = 40
+    Top = 8
+  end
+  object DWEvents: TDWServerEvents
+    IgnoreInvalidParams = False
+    Events = <
+      item
+        Routes = [crGet]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'Login'
+        EventName = 'Login'
+        OnlyPreDefinedParams = False
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'Produtos'
+        EventName = 'Produtos'
+        OnlyPreDefinedParams = False
+      end
+      item
+        Routes = [crPost]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'NovoPedido'
+        EventName = 'NovoPedido'
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsNovoPedidoReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'Clientes'
+        EventName = 'Clientes'
+        OnlyPreDefinedParams = False
+        OnReplyEvent = DWEventsEventsClientesReplyEvent
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'Vendedores'
+        EventName = 'Vendedores'
+        OnlyPreDefinedParams = False
+      end
+      item
+        Routes = [crAll]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'PlanoPagamento'
+        EventName = 'PlanoPagamento'
+        OnlyPreDefinedParams = False
+      end
+      item
+        Routes = [crPost]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'NovoPedidoItens'
+        EventName = 'NovoPedidoItens'
+        OnlyPreDefinedParams = False
+      end
+      item
+        Routes = [crGet]
+        NeedAuthorization = True
+        DWParams = <>
+        JsonMode = jmPureJSON
+        Name = 'GetToken'
+        EventName = 'GetToken'
+        OnlyPreDefinedParams = False
+      end>
+    Left = 232
+    Top = 8
+  end
+  object RESTDWPoolerDB1: TRESTDWPoolerDB
+    RESTDriver = RESTDWDriverFD1
+    Compression = True
+    Encoding = esUtf8
+    StrsTrim = False
+    StrsEmpty2Null = False
+    StrsTrim2Len = True
+    Active = True
+    PoolerOffMessage = 'RESTPooler not active.'
+    ParamCreate = True
+    Left = 48
+    Top = 360
+  end
+  object RESTDWDriverFD1: TRESTDWDriverFD
+    CommitRecords = 100
+    Connection = Conexao
+    Left = 48
+    Top = 416
+  end
+  object Driver: TFDPhysFBDriverLink
+    Left = 40
+    Top = 64
+  end
+end

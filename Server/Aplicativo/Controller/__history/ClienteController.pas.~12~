@@ -1,0 +1,96 @@
+unit ClienteController;
+
+interface
+
+uses Firedac.Comp.Client, System.SysUtils, Firedac.DApt, FMX.Graphics, Classe.Conexao,
+  ClienteModel;
+
+type
+  TClienteController = class
+
+  private
+    FConn : TConecta;
+    FCodCliente: Integer;
+    FNomeCliente: String;
+    FCodVendedor: Integer;
+    FCodigo: Integer;
+    FData: String;
+    FNroPedidoMobile: String;
+
+
+  public
+    constructor Create();
+
+    property NomeCliente     : String  read FNomeCliente     write FNomeCliente;
+    property Data            : String  read FData            write FData;
+    property Codigo          : Integer read FCodigo          write FCodigo;
+    property CodCliente      : Integer read FCodCliente      write FCodCliente;
+    property CodVendedor     : Integer read FCodVendedor     write FCodVendedor;
+    property NroPedidoMobile : String  read FNroPedidoMobile write FNroPedidoMobile;
+
+    function NovoCliente(cliente : TPessoa): Boolean;
+  end;
+
+implementation
+
+{ TEntrada }
+
+uses uPrincipal, System.Classes, Data.DB, System.StrUtils;
+
+constructor TClienteController.Create;
+begin
+  FConn := TConecta.Create;
+end;
+
+function TClienteController.NovoCliente(cliente : TPessoa): Boolean;
+var
+  qry : TFDQuery;
+  Stream : TStream;
+  SQL_, VALUES : String;
+begin
+  try
+    qry            := TFDQuery.Create(nil);
+    qry.Connection := FConn.Conectar;
+
+    with qry do
+    begin
+      SQL_   := 'INSERT INTO LANC_ESPERA (CODIGO, CODIGO_CLIENTE, CODIGO_VENDEDOR, DATA, NOME_CLIENTE, NRO_PEDIDO_MOBILE) ';
+      VALUES := 'VALUES(:CODIGO, :CODIGO_CLIENTE, :CODIGO_VENDEDOR, :DATA, :NOME_CLIENTE, :NRO_PEDIDO_MOBILE)';
+
+      Active := False;
+      SQL.Clear;
+      SQL.Add('SELECT MAX(CODIGO) AS ID FROM LANC_ESPERA');
+      Open;
+
+      Codigo := FieldByName('ID').AsInteger + 1;
+
+      Active := False;
+      SQL.Clear;
+      SQL.Add(SQL_);
+      SQL.Add(VALUES);
+      ParamByName('CODIGO').Value            := Codigo;
+      ParamByName('CODIGO_CLIENTE').Value    := CodCliente;
+      ParamByName('CODIGO_VENDEDOR').Value   := CodVendedor;
+      ParamByName('DATA').Value              := StrToDateTime(FData);
+      ParamByName('NOME_CLIENTE').Value      := NomeCliente;
+      ParamByName('NRO_PEDIDO_MOBILE').Value := NroPedidoMobile;
+
+      ExecSQL;
+
+      erro        := IntToStr(Codigo);
+      Result      := True;
+
+      DisposeOf;
+    end;
+
+  except on ex : Exception do
+   begin
+     erro   := 'Erro ao inserir novo pedido: ' + ex.Message;
+     Result := False;
+
+     frmPrincipal.Log(erro);
+   end;
+  end;
+end;
+
+end.

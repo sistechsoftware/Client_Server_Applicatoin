@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C14EDAC3-28F0-42D2-AA89-AC079B6727F1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\Server\Aplicativo\Dpr\WKServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="WK.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="WKServer">
+        <MSBuild Projects="..\..\Server\Aplicativo\Dpr\WKServer.dproj"/>
+    </Target>
+    <Target Name="WKServer:Clean">
+        <MSBuild Projects="..\..\Server\Aplicativo\Dpr\WKServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WKServer:Make">
+        <MSBuild Projects="..\..\Server\Aplicativo\Dpr\WKServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WK">
+        <MSBuild Projects="WK.dproj"/>
+    </Target>
+    <Target Name="WK:Clean">
+        <MSBuild Projects="WK.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WK:Make">
+        <MSBuild Projects="WK.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="WKServer;WK"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="WKServer:Clean;WK:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="WKServer:Make;WK:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

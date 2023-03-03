@@ -1,0 +1,86 @@
+unit PessoaController;
+
+interface
+
+uses
+  ClienteModel, System.Json, REST.Client;
+
+type
+  TPessoaController = class
+
+  private
+    FPessoa : TPessoa;
+    FPessoaController : TPessoaController;
+    procedure EnviarServidor;
+
+  public
+    procedure Insert(pessoa: TPessoa; pessoaController : TPessoaController);
+  end;
+
+implementation
+
+uses
+  System.Classes, System.SysUtils, Vcl.Dialogs;
+
+procedure TPessoaController.Insert(pessoa : TPessoa; pessoaController : TPessoaController);
+begin
+  FPessoa := pessoa;
+  FPessoaController := pessoaController;
+  EnviarServidor;
+end;
+
+procedure TPessoaController.EnviarServidor;
+var
+  jsonObj : TJsonObject;
+  json : String;
+  request : TRESTRequest;
+  restClient : TRESTClient;
+begin
+   TThread.CreateAnonymousThread(procedure
+   begin
+     try
+       try
+         restClient := TRESTClient.Create('http://localhost:8084');
+
+         request := TRESTRequest.Create(Nil);
+         request.Client := restClient;
+         request.Resource := 'NovoCliente';
+         request.Params.Clear;
+         request.AddParameter('nmprimeiro', FPessoa.NmPrimeiro);
+         request.AddParameter('nmsegundo', FPessoa.NmSegundo);
+         request.AddParameter('flnatureza', FPessoa.FlNatureza.ToString);
+         request.AddParameter('dsdocumento', FPessoa.DsDocumento);
+         request.AddParameter('dtregistro', DateToStr(FPessoa.DtRegistro));
+         request.Execute;
+
+         if request.Response.JSONValue = nil then
+         begin
+           raise Exception.Create('Erro ao salvar o cliente: ' + jsonObj.GetValue('erro').Value);
+         end
+         else
+         begin
+           json    := request.Response.JSONValue.ToString;
+           jsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(json), 0) as TJSONObject;
+
+           if jsonObj.GetValue('sucesso').Value <> 'S' then
+           begin
+             raise Exception.Create('Erro ao salvar o cliente: ' + jsonObj.GetValue('erro').Value);
+           end;
+
+           fPrincipal.LimparCampos;
+         end;
+       except on e : exception do
+        begin
+          ShowMessage('Erro ao salvar o novo cliente: ' + e.Message);
+          Exit;
+        end;
+       end;
+     finally
+       FPessoa.DisposeOf;;
+       FPessoaController.DisposeOf;
+       jsonObj.DisposeOf;
+     end;
+   end).Start;
+end;
+
+end.

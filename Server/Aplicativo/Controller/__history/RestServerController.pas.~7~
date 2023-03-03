@@ -1,0 +1,46 @@
+unit RestServerController;
+
+interface
+
+uses
+  uRESTDWMasterDetailData, uRESTDWServerEvents;
+
+type
+  TRestClientController = class
+    private
+    FRestServer: TDWServerEvents;
+
+    public
+      property RestServer : TDWServerEvents read FRestServer write FRestServer;
+
+      constructor Create; overload;
+  end;
+
+implementation
+
+uses
+  System.Classes, uDWConsts;
+
+{ TRestClientController }
+constructor TRestClientController.Create;
+var
+  eventList : TDWEventList;
+  event : TDWEvent;
+  teste : TCollection;
+begin
+  FRestServer := TDWServerEvents.Create(Nil);
+
+  with event do
+  begin
+    TDWEvent.Create(teste);
+    event.EventName := 'NovoCliente';
+    event.JsonMode  := jmPureJSON;
+    event.NeedAuthorization := True;
+    event.Routes    := [crGet];
+  end;
+
+  eventList := TDWEventList.Create(Nil, Nil);
+  FRestServer.Events := event;
+end;
+
+end.

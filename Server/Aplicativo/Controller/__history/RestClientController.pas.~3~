@@ -1,0 +1,28 @@
+unit RestClientController;
+
+interface
+
+uses
+  uRESTDWMasterDetailData;
+
+type
+  TRestClientController = class
+    private
+    FRestClient: TRESTClient;
+
+    public
+      property RestClient : TRESTClient read FRestClient write FRestClient;
+
+      constructor Create; overload;
+  end;
+
+implementation
+
+{ TRestClientController }
+
+constructor TRestClientController.Create;
+begin
+  FRestClient := TRESTClient.Create;
+end;
+
+end.
